@@ -1,3 +1,5 @@
+console.log("hi");
+
 
   // Your web app's Firebase configuration
   var firebaseConfig = {
@@ -14,13 +16,14 @@
 
   var database = firebase.database();
 
+
   $("#add-train-btn").on("click", function(){
       event.preventDefault();
 
-      var trainName = $("#train-namer").val();
-      var destName = $("#destination-namer").val();
-      var trainTime = $("#train-timer").val();
-      var frequencyTime = $("#frequence").val();
+      var trainName = $("#train-namer").val().trim();
+      var destName = $("#destination-namer").val().trim();
+      var trainTime = $("#train-timer").val().trim();
+      var frequencyTime = $("#frequence").val().trim();
 
       var trainEntry = {
           name: trainName,
@@ -40,7 +43,27 @@
       $("#destination-namer").val("");
       $("#train-timer").val("");
       $("#frequence").val("");
-  })
+  });
+
+  database.ref().on("child_added", function(childsnapshot){
+      console.log(childsnapshot.val());
+
+      var trainName = childsnapshot.val().name;
+      var destName = childsnapshot.val().dest;
+      var trainTime = childsnapshot.val().time;
+      var frequencyTime = childsnapshot.val().freq;
+
+      //moment js if needed
+
+      var newTrainRow = $("<tr>").append(
+          $("<td>").text(trainName),
+          $("<td>").text(destName),
+          $("<td>").text(trainTime),
+          $("<td>").text(trainName),
+          $("<td>").text(frequencyTime),
+      );
+      $("#train-schedule > tbody").append(newTrainRow);
+    });
 
   
 
