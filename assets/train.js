@@ -22,7 +22,7 @@ console.log("hi");
 
       var trainName = $("#train-namer").val().trim();
       var destName = $("#destination-namer").val().trim();
-      var trainTime = $("#train-timer").val().trim();
+      var trainTime = moment($("#train-timer").val().trim(), 'HH:mm').format('hh:mm a');
       var frequencyTime = $("#frequence").val().trim();
 
       var trainEntry = {
@@ -53,17 +53,35 @@ console.log("hi");
       var trainTime = childsnapshot.val().time;
       var frequencyTime = childsnapshot.val().freq;
 
-      //moment js if needed
+      //couldn't get the moment.js to display a minute countdown timer. I will keep working on this
+
+      var listTime = moment(trainTime, 'hh:mm a');
+      var diffTime = moment(trainTime, 'hh:mm a').add(frequencyTime, 'm');
+      var theDiff = listTime.to(diffTime);
+
+    //   var now = moment().minute();
+    //   var lilDiff = now.to(listTime).minute();
+    //   var bigDiff = now.to(diffTime).minute();
+
+    //   var ultimateDiff = theDiff.to(bigDiff);
+
 
       var newTrainRow = $("<tr>").append(
           $("<td>").text(trainName),
           $("<td>").text(destName),
-          $("<td>").text(trainTime),
-          $("<td>").text(trainName),
           $("<td>").text(frequencyTime),
+          $("<td>").text(trainTime),
+          $("<td>").text(theDiff),
       );
       $("#train-schedule > tbody").append(newTrainRow);
     });
+
+
+
+
+
+
+
 
   
 
